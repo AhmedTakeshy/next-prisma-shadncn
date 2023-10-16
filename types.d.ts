@@ -6,6 +6,5 @@ interface Todo {
 
 enum Status {
     OPEN,
-    IN_PROGRESS,
     CLOSED
 }

@@ -6,10 +6,10 @@ export default async function Home() {
   const todos = await getTodos();
   console.log(todos);
   return (
-    <main className="grid h-screen gap-4 place-content-center">
+    <main className="grid gap-4 py-12 place-content-center">
       <ProfileForm />
       {todos && todos.map((todo) => (
-        <TodoCard key={todo.id} title={todo.title} description={todo.description} />
+        <TodoCard key={todo.id} id={todo.id} title={todo.title} description={todo.description} stateValue={todo.status} />
       ))}
     </main>
   )

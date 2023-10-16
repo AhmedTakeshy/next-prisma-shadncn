@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -35,10 +34,16 @@ export function ProfileForm() {
         },
     })
 
+    async function action(data: FormData) {
+        await addTodo(data);
+
+        form.reset();
+    }
+
 
     return (
         <Form {...form}>
-            <form className="p-6 border-2 rounded-xl border-slate-800" action={addTodo}>
+            <form className="p-6 border-2 rounded-xl border-slate-800" action={action}>
                 <div className="space-y-2">
                 <FormField
                     control={form.control}
@@ -65,12 +70,6 @@ export function ProfileForm() {
                             <FormMessage />
                         </FormItem>
                     )}
-                />
-                <input
-                    type="hidden"
-                    name="id"
-
-                    
                 />
                 </div>
                 <Button className="w-full mt-8" type="submit">Submit</Button>

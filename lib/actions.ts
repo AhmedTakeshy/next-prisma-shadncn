@@ -2,18 +2,21 @@
 import { revalidatePath } from "next/cache"
 import prisma from "./PrismaClient"
 
+type Status = "OPEN" | "CLOSED"
+
 
 
 export async function getTodos() {
     try {
         const todos = await prisma.issue.findMany(
-        //     {
-        //     select: {
-        //         title: true,
-        //         description: true,
-        //         id: true
-        //     }
-        // }
+            {
+            select: {
+                title: true,
+                description: true,
+                id: true,
+                status: true
+            }
+            }
         );
         return todos;
     } catch (error) {
@@ -46,7 +49,7 @@ export async function deleteTodo(id: number) {
 
     revalidatePath("/")
 }
-export async function updateTodo(todo: Todo, id: number) {
+export async function updateTodo(id: number,todo: Todo ) {
     await prisma.issue.update({
         where: {
             id
@@ -54,6 +57,7 @@ export async function updateTodo(todo: Todo, id: number) {
         data: {
             title: todo.title,
             description: todo.description.toString(),
+            status: todo.status.toString() as Status
         }
     })
 
