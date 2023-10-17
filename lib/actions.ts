@@ -57,7 +57,7 @@ export async function updateTodo(id: number,todo: Todo ) {
         data: {
             title: todo.title,
             description: todo.description.toString(),
-            status: todo.status.toString() as Status
+            status: todo.state.toString() as Status
         }
     })
 

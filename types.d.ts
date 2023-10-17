@@ -1,10 +1,8 @@
 interface Todo {
     title: string
     description: String
-    status: Status
+    state: Status
 }
 
-enum Status {
-    OPEN,
-    CLOSED
-}
+type Status = "OPEN" | "CLOSED"
+

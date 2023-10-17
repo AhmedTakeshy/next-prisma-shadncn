@@ -6,16 +6,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useTransition } from "react"
 
 type Props = {
-    onStatus?: (state: string) => void,
-    stateValue: string
+    onStatus?: (state: Status) => void,
+    stateValue: Status
 }
 
 export default function Select({ onStatus, stateValue }: Props) {
+    const [isPending, startTransition] = useTransition()
 
-
-   const selectHandler = (value:string) =>  {
+   const selectHandler = (value:Status) =>  {
         console.log(value);
         
          if(onStatus){
@@ -24,7 +25,7 @@ export default function Select({ onStatus, stateValue }: Props) {
     }
 
     return (
-        <Sel onValueChange={(value) => selectHandler(value)} defaultValue={stateValue}>
+        <Sel onValueChange={(value) => startTransition(() => selectHandler(value as Status))} >
             <SelectTrigger className="w-[137px]">
                 <SelectValue placeholder="Status" />
             </SelectTrigger>
