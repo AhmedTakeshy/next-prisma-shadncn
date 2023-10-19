@@ -10,9 +10,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Issue {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  name  String
-  role  String
+model User {
+  id      Int      @id  @default(autoincrement())
+  email   String   @unique
+  name    String   @map("full_name")
+  role    Role?    @default(USER)
+  Profile Profile? // one-to-one relation
+  posts    Post[] // one-to-many relation
+
+  // @@id([name, email])
+  // @@unique([name, role])
+  // @@index([name, email])
+
+  @@map("users")
 }
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String @db.Text
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id         Int        @id @default(autoincrement())
+  authorId   Int?        
+  author     User?       @relation(fields: [authorId], references: [id])
+  title      String
+  body       String     @db.Text
+  published  Boolean    @default(false)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  categories Category[] // many-to-many relation
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  posts Post[] // many-to-many relation
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// // Double foreign key in a one-to-one relation
+// model User {
+//   firstName String
+//   lastName  String
+//   @@id([firstName, lastName])
+//   profile   Profile?
+// }
+
+// model Profile {
+//   id    Int    @id @default(autoincrement())
+//   userFirstName String
+//   userLastName  String
+//   user  User   @relation(fields: [userFirstName, userLastName], references: [firstName, lastName])
+//   @@unique([userFirstName, userLastName])
+// }
