@@ -53,7 +53,7 @@ const userData: Prisma.UserCreateInput[] = [
                             },
                         ],
                     },
-                    published: true,
+                    published: false,
                 },
             ],
         },
